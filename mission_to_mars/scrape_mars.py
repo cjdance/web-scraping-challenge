@@ -1,17 +1,17 @@
-from splinter import Browser
-from bs4 import BeautifulSoup as bs
 import time
-from webdriver_manager.chrome import ChromeDriverManager
+import pymongo
+import requests
 import pandas as pd
+from splinter import Browser
+from webdriver_manager.chrome import ChromeDriverManager
+from bs4 import BeautifulSoup as bs
 
-def init_browser():
-    executable_path = {'executable_path': ChromeDriverManager().install()}
-    browser = Browser('chrome', **executable_path, headless=False)
 
 
 def scrape_info():
 
-    browser = init_browser()
+    executable_path = {'executable_path': ChromeDriverManager().install()}
+    browser = Browser('chrome', **executable_path, headless=False)
 
     news_url = 'https://redplanetscience.com/'
     browser.visit(news_url)
@@ -24,7 +24,6 @@ def scrape_info():
 
     img_url = 'https://spaceimages-mars.com'
     browser.visit(img_url)
-    browser.click_link_by_partial_text('FULL IMAGE')
     img_html = browser.html
     soup = bs(img_html, "html.parser")
     image_url = soup.find_all("img")
@@ -41,7 +40,7 @@ def scrape_info():
     mars_df = mars_df.drop(axis=1, labels = "Drop")
     html_table = mars_df.to_html()
     html_table.replace("\n", '')
-    mars_df.to_html("mars_facts_data.html")
+    mars_fact = mars_df.to_html()
 
     hemi_url = 'https://marshemispheres.com/'
     browser.visit(hemi_url)
@@ -71,8 +70,8 @@ def scrape_info():
         "news_title": news_title,
         "news_paragraph": news_para,
         "mars_img": featured_image_url,
-        "mars_fact": mars_df.to_html(),
-        "mars_hemisphere": hemispheres_info
+        "mars_facts": mars_fact,
+        "mars_hemispheres": hemispheres_info
     }
     
     browser.quit()
