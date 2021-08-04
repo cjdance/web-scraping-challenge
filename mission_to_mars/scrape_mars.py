@@ -9,7 +9,7 @@ def init_browser():
     browser = Browser('chrome', **executable_path, headless=False)
 
 
-def scrape():
+def scrape_info():
 
     browser = init_browser()
 
@@ -68,11 +68,14 @@ def scrape():
         hemispheres_info.append({"title" : title, "img_url" : img_url})
 
     mars_info = {
-        "news-title": news_title,
-        "news-paragraph": news_para,
-        "featured_image": featured_image_url,
-        "facts": mars_df,
-        "hemispheres": hemispheres_info
+        "mars_news": {
+            "news_title": news_title,
+            "news_p": news_para,
+            },
+        "mars_img": featured_image_url,
+        "mars_fact": mars_df,
+        "mars_hemisphere": hemispheres_info
+    }
     }
     browser.quit()
 
