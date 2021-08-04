@@ -67,10 +67,13 @@ def scrape():
     
         hemispheres_info.append({"title" : title, "img_url" : img_url})
 
-data = {
-    "news-title": news_title,
-    "news-paragraph": news_para,
-    "featured_image": featured_image(),
-    "facts": mars_facts()
-    "hemispheres": hemispheres()
-}
+    mars_info = {
+        "news-title": news_title,
+        "news-paragraph": news_para,
+        "featured_image": featured_image_url,
+        "facts": mars_df,
+        "hemispheres": hemispheres_info
+    }
+    browser.quit()
+
+    return mars_info
